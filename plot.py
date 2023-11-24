@@ -13,7 +13,7 @@ import numpy as np
 class Plot:
 
     h = 6.582 * (1 / np.power(10, 16))  # plancks modified constant
-    x = np.linspace(0, 1, 50)
+    x = np.linspace(0, 1, 100)
 
     def __init__(self, energy, length, nconst):
 
@@ -21,32 +21,30 @@ class Plot:
         self.E = energy
         self.L = length
         self.n = nconst
-        
+
     def update(self, energy=None, length=None, nconst=None):
-        
+
         if energy is not None:
             self.E = energy
-        
+
         if length is not None:
             self.L = length
-            
+
         if nconst is not None:
             self.n = nconst
-    
+
     # wav func calculation methods
     def real_wavfunc(self, t):
         return np.cos((-1*(self.E*t))/Plot.h) * np.sqrt(2/self.L) * np.sin((self.n*np.pi*Plot.x)/self.L)
 
-
     def i_wavfunc(self, t):
         return np.sin((-1*(self.E*t))/Plot.h) * np.sqrt(2/self.L) * np.sin((self.n*np.pi*Plot.x)/self.L)
 
-
     def prob_density(self, real_y, imag_y):
         return np.square(real_y) + np.square(imag_y)
-    
-    
+
     # graphing method; returns fig
+
     def graph(self):
         # prepare plot
         fig, ax = plt.subplots()
@@ -78,7 +76,7 @@ class Plot:
         ax.spines['right'].set_color('white')
         ax.hlines(0, 0, 1, colors='white')
 
-        ax.legend(facecolor='black', edgecolor='white', loc='upper right',
+        ax.legend(facecolor='black', edgecolor='white', loc='lower left',
                   fontsize='small', labelcolor='white',)
 
         ax.tick_params(axis='x', color='white', labelcolor='white')
@@ -96,7 +94,7 @@ class Plot:
             return real_line, imag_line, prob_line
 
         animation = FuncAnimation(
-            fig, update, frames=np.linspace(0, 2, 20), interval=100, blit=True)
+            fig, update, frames=np.linspace(0, 2, 40), interval=50, blit=True)
 
         return fig
 
